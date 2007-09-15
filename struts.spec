@@ -14,7 +14,7 @@
 
 Name:           struts
 Version:        1.2.9
-Release:        %mkrel 5.2
+Release:        %mkrel 5.3
 Epoch:          0
 Summary:        Web application framework
 License:        Apache License
@@ -58,8 +58,6 @@ Buildroot:      %{_tmppath}/%{name}-%{version}-buildroot
 # libgcj aot-compiled native libraries
 %if %{gcj_support}
 BuildRequires:  java-gcj-compat-devel >= 0:1.0.35
-Requires(post): java-gcj-compat >= 0:1.0.31
-Requires(postun): java-gcj-compat >= 0:1.0.31
 %else
 BuildArch:      noarch
 %endif
@@ -108,8 +106,6 @@ Summary:        Sample %{name} webapps for tomcat3
 Group:          Development/Java
 Requires:       %{name} = %{version}-%{release}
 Requires:       tomcat3
-Requires(post): java-gcj-compat >= 0:1.0.31
-Requires(postun): java-gcj-compat >= 0:1.0.31
 
 %description webapps-tomcat3
 Sample %{name} webapps for tomcat3.
@@ -119,8 +115,6 @@ Summary:        Sample %{name} webapps for tomcat4
 Group:          Development/Java
 Requires:       %{name} = %{version}-%{release}
 Requires:       tomcat4
-Requires(post): java-gcj-compat >= 0:1.0.31
-Requires(postun): java-gcj-compat >= 0:1.0.31
 
 %description webapps-tomcat4
 Sample %{name} webapps for tomcat4.
@@ -131,10 +125,6 @@ Summary:        Sample %{name} webapps for tomcat5
 Group:          Development/Java
 Requires:       %{name} = %{version}-%{release}
 Requires:       tomcat5
-%if %{gcj_support}
-Requires(post): java-gcj-compat >= 0:1.0.31
-Requires(postun): java-gcj-compat >= 0:1.0.31
-%endif
 
 %description webapps-tomcat5
 Sample %{name} webapps for tomcat5.
