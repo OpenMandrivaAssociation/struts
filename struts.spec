@@ -14,7 +14,7 @@
 
 Name:           struts
 Version:        1.2.9
-Release:        %mkrel 5.3
+Release:        %mkrel 5.4
 Epoch:          0
 Summary:        Web application framework
 License:        Apache License
@@ -34,7 +34,7 @@ Requires:       jakarta-commons-logging >= 0:1.0.4
 Requires:       jakarta-commons-validator >= 0:1.1.4
 Requires:       jsp
 Requires:       oro >= 0:2.0.7
-BuildRequires:  jpackage-utils >= 1.5
+BuildRequires:  java-rpmbuild >= 1.5
 BuildRequires:  ant >= 1.6.1
 BuildRequires:  antlr >= 2.7.2
 BuildRequires:  ant-trax
