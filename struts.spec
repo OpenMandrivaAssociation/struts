@@ -83,8 +83,7 @@ JavaBeans properties based on the Java reflection APIs, and
 internationalization of prompts and messages.
 
 Struts is part of the Jakarta Project, sponsored by the Apache Software
-Foundation. The official Struts home page is at
-http://jakarta.apache.org/struts.
+Foundation.
 
 %package manual
 Summary:        Manual for %{name}
