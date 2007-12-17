@@ -52,7 +52,6 @@ BuildRequires:  jakarta-commons-validator >= 0:1.1.4
 BuildRequires:  jsp
 BuildRequires:  oro >= 0:2.0.7
 Group:          Development/Java
-Buildroot:      %{_tmppath}/%{name}-%{version}-buildroot
 # RHEL4 and FC4
 #Obsoletes:     struts11 <= 0:1.1-1jpp_7fc
 # libgcj aot-compiled native libraries
