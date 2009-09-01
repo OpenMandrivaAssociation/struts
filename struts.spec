@@ -14,7 +14,7 @@
 
 Name:           struts
 Version:        1.2.9
-Release:        %mkrel 6
+Release:        %mkrel 7
 Epoch:          0
 Summary:        Web application framework
 License:        Apache License
