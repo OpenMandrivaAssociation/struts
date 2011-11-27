@@ -36,7 +36,7 @@
 
 Name:		struts
 Version:	1.2.9
-Release:	10
+Release:	12
 Epoch:		0
 Summary:	Web application framework
 License:	ASL 2.0
