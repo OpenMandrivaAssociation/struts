@@ -1,0 +1,23 @@
+--- ./src/share/org/apache/struts/util/MessageResourcesFactory.java.sav	2006-08-22 13:31:12.000000000 -0400
++++ ./src/share/org/apache/struts/util/MessageResourcesFactory.java	2006-08-22 13:32:35.000000000 -0400
+@@ -167,8 +167,18 @@
+ 
+         // Construct a new instance of the specified factory class
+         try {
+-            if (clazz == null)
+-                clazz = RequestUtils.applicationClass(factoryClass);
++            if (clazz == null) {
++                if (System.getProperty("java.vm.name").equals("GNU libgcj")) {
++                    // XXX should use context class loader but it's wrong
++                    ClassLoader classLoader =
++                        MessageResourcesFactory.class.getClassLoader();
++                    clazz = classLoader.loadClass(factoryClass);
++                }
++                else { 
++                   clazz = RequestUtils.applicationClass(factoryClass);
++                }
++            }
++
+             MessageResourcesFactory factory =
+                 (MessageResourcesFactory) clazz.newInstance();
+             return (factory);

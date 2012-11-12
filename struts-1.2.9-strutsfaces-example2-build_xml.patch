@@ -1,0 +1,11 @@
+--- contrib/struts-faces/example2-webapp/build.xml.sav	2005-09-30 10:20:47.000000000 +0200
++++ contrib/struts-faces/example2-webapp/build.xml	2005-09-30 10:21:52.000000000 +0200
+@@ -170,7 +170,7 @@
+ 
+     <!-- Copy required configuration files -->
+     <copy    todir="${build.home}/${context.path}/WEB-INF">
+-      <fileset dir="${struts.home}/lib"
++      <fileset dir="${struts.home}/target/library"
+           includes="valid*.xml,*.tld"/>
+     </copy>
+ 

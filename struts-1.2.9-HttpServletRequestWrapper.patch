@@ -1,0 +1,24 @@
+--- contrib/struts-faces/core-library/src/java/org/apache/struts/faces/util/HttpServletRequestWrapper.java.sav	2006-03-09 16:32:50.000000000 +0100
++++ contrib/struts-faces/core-library/src/java/org/apache/struts/faces/util/HttpServletRequestWrapper.java	2006-03-29 19:09:54.000000000 +0200
+@@ -409,4 +409,21 @@
+ 	public String toString() {
+ 		return original.toString();
+ 	}
++
++        public int getRemotePort(){
++            return original.getRemotePort();
++        }
++
++        public String getLocalName(){
++            return original.getLocalName();
++        }
++
++        public String getLocalAddr(){
++            return original.getLocalAddr();
++        }
++
++        public int getLocalPort(){
++            return original.getLocalPort();
++        }
++
+ }

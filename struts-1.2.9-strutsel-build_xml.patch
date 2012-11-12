@@ -1,0 +1,10 @@
+--- contrib/struts-el/build.xml.sav	2005-09-29 18:41:40.000000000 +0200
++++ contrib/struts-el/build.xml	2005-09-29 18:42:12.000000000 +0200
+@@ -171,6 +171,7 @@
+   <pathelement location="${commons-validator.jar}"/>
+   <pathelement location="${jdbc20ext.jar}"/>
+   <pathelement location="${servlet.jar}"/>
++  <pathelement location="${jsp.jar}"/>
+   <pathelement location="${struts.jar}"/>
+   <pathelement location="${struts-el.jar}"/>
+   <pathelement location="${jstl.jar}"/>

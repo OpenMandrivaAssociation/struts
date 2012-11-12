@@ -1,0 +1,25 @@
+--- contrib/struts-faces/core-library/src/java/org/apache/struts/faces/application/FacesRequestProcessor.java.sav	2006-03-09 16:32:40.000000000 +0100
++++ contrib/struts-faces/core-library/src/java/org/apache/struts/faces/application/FacesRequestProcessor.java	2006-03-29 19:07:10.000000000 +0200
+@@ -37,6 +37,7 @@
+ import org.apache.struts.action.ActionForm;
+ import org.apache.struts.action.ActionForward;
+ import org.apache.struts.action.ActionMapping;
++import org.apache.struts.action.InvalidCancelException;
+ import org.apache.struts.action.RequestProcessor;
+ import org.apache.struts.config.FormBeanConfig;
+ import org.apache.struts.config.ForwardConfig;
+@@ -411,8 +412,12 @@
+         if (log.isTraceEnabled()) {
+             log.trace("Performing standard validation");
+         }
+-        boolean result = super.processValidate
+-            (request, response, form, mapping);
++        boolean result = false;
++        try {
++        result = super.processValidate(request, response, form, mapping);
++        } catch(InvalidCancelException ice) {
++            throw new ServletException(ice);
++        }
+         if (log.isDebugEnabled()) {
+             log.debug("Standard validation processing returned " + result);
+         }
