@@ -36,11 +36,11 @@
 
 Name:		struts
 Version:	1.2.9
-Release:	12
+Release:	11
 Epoch:		0
 Summary:	Web application framework
 License:	ASL 2.0
-Group:          Development/Java
+Group:      Development/Java
 Source0:	%{name}-%{version}-src-RHCLEAN.tar.gz
 Source2:	tomcat4-context-allowlinking.xml
 Source3:	tomcat5-context-allowlinking.xml
@@ -61,9 +61,12 @@ Requires:	jakarta-commons-digester
 Requires:	jakarta-commons-fileupload
 Requires:	jakarta-commons-validator
 Requires:	jakarta-oro
+BuildRequires:	locales-en
 BuildRequires:	jpackage-utils >= 1.6
 BuildRequires:  java-devel >= 0:1.6.0
 BuildRequires:	ant >= 1.6
+BuildRequires:	ant-nodeps >= 1.6
+BuildRequires:	ant-trax >= 1.6
 BuildRequires:	antlr
 BuildRequires:	jaxp_transform_impl
 BuildRequires:	sed
@@ -115,7 +118,7 @@ Javadoc for %{name}.
 
 %package webapps-tomcat5
 Summary:        Sample %{name} webapps for tomcat5
-Group:          Development/Libraries
+Group:          Development/Java
 Requires:       %{name} = %{version}-%{release}
 Requires:       jakarta-commons-beanutils
 Requires:       jakarta-commons-digester
@@ -153,6 +156,7 @@ Sample %{name} webapps for tomcat5.
 find . -name "*.jar" -exec rm -f {} \;
 
 %build
+export LC_ALL=ISO-8859-1
 
 # build struts
 export CLASSPATH=$(build-classpath servlet)
