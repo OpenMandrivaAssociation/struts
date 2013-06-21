@@ -34,17 +34,17 @@
 %define webapps		blank documentation example examples tiles-documentation
 %define webapplibs commons-beanutils commons-digester commons-fileupload commons-validator oro struts
 
+Summary:	Web application framework
 Name:		struts
 Version:	1.2.9
 Release:	11
-Epoch:		0
-Summary:	Web application framework
 License:	ASL 2.0
-Group:      Development/Java
+Group:		Development/Java
+Url:		http://struts.apache.org/
 Source0:	%{name}-%{version}-src-RHCLEAN.tar.gz
 Source2:	tomcat4-context-allowlinking.xml
 Source3:	tomcat5-context-allowlinking.xml
-#Patch0:		%{name}-%{version}.build.patch
+#Patch0:	%{name}-%{version}.build.patch
 Patch0:		struts-1.2.9-strutsel-build_xml.patch
 Patch1:		struts-1.2.9-FacesRequestProcessor.patch
 Patch2:		struts-1.2.9-HttpServletRequestWrapper.patch
@@ -54,16 +54,10 @@ Patch5:		struts-1.2.9-strutsfaces-example2-build_xml.patch
 Patch6:		struts-1.2.9-strutsfaces-systest1-build_xml.patch
 Patch7:		struts-1.2.9.bz157205.patch
 Patch8:		struts-1.2.9-CVE-2008-2025.patch
-URL:		http://struts.apache.org/
-Requires:	servlet25
-Requires:	jakarta-commons-beanutils
-Requires:	jakarta-commons-digester
-Requires:	jakarta-commons-fileupload
-Requires:	jakarta-commons-validator
-Requires:	jakarta-oro
+BuildArch:	noarch
 BuildRequires:	locales-en
 BuildRequires:	jpackage-utils >= 1.6
-BuildRequires:  java-devel >= 0:1.6.0
+BuildRequires:	java-devel >= 0:1.6.0
 BuildRequires:	ant >= 1.6
 BuildRequires:	ant-nodeps >= 1.6
 BuildRequires:	ant-trax >= 1.6
@@ -71,16 +65,19 @@ BuildRequires:	antlr
 BuildRequires:	jaxp_transform_impl
 BuildRequires:	sed
 BuildRequires:	servlet25
-BuildRequires:  jsp21
-BuildRequires:  jakarta-commons-beanutils
-BuildRequires:  jakarta-commons-digester
-BuildRequires:  jakarta-commons-fileupload
-BuildRequires:  jakarta-commons-logging
-BuildRequires:  jakarta-commons-validator
-BuildRequires:  jakarta-oro
-
-Group:		Development/Java
-BuildArch:	noarch
+BuildRequires:	jsp21
+BuildRequires:	jakarta-commons-beanutils
+BuildRequires:	jakarta-commons-digester
+BuildRequires:	jakarta-commons-fileupload
+BuildRequires:	jakarta-commons-logging
+BuildRequires:	jakarta-commons-validator
+BuildRequires:	jakarta-oro
+Requires:	servlet25
+Requires:	jakarta-commons-beanutils
+Requires:	jakarta-commons-digester
+Requires:	jakarta-commons-fileupload
+Requires:	jakarta-commons-validator
+Requires:	jakarta-oro
 
 %description
 Welcome to the Struts Framework! The goal of this project is to provide
@@ -103,40 +100,40 @@ Foundation. The official Struts home page is at
 http://jakarta.apache.org/struts.
 
 %package manual
-Summary:        Manual for %{name}
-Group:          Development/Java
+Summary:	Manual for %{name}
+Group:		Development/Java
 
 %description manual
 Documentation for %{name}.
 
 %package javadoc
-Summary:        Javadoc for %{name}
-Group:          Development/Java
+Summary:	Javadoc for %{name}
+Group:		Development/Java
 
 %description javadoc
 Javadoc for %{name}.
 
 %package webapps-tomcat5
-Summary:        Sample %{name} webapps for tomcat5
-Group:          Development/Java
-Requires:       %{name} = %{version}-%{release}
-Requires:       jakarta-commons-beanutils
-Requires:       jakarta-commons-digester
-Requires:       jakarta-commons-fileupload
-Requires:       jakarta-commons-validator
-Requires:       jakarta-oro
-Requires:       tomcat5
-Requires(post): %{name} = %{version}-%{release}
-Requires(post): jakarta-commons-beanutils
-Requires(post): jakarta-commons-digester
-Requires(post): jakarta-commons-fileupload
-Requires(post): jakarta-commons-validator
-Requires(post): jakarta-oro
-Requires(post): tomcat5
-Requires(pre):  tomcat5
+Summary:	Sample %{name} webapps for tomcat5
+Group:		Development/Java
+Requires:	%{name} = %{version}-%{release}
+Requires:	jakarta-commons-beanutils
+Requires:	jakarta-commons-digester
+Requires:	jakarta-commons-fileupload
+Requires:	jakarta-commons-validator
+Requires:	jakarta-oro
+Requires:	tomcat5
+Requires(post):	%{name} = %{version}-%{release}
+Requires(post):	jakarta-commons-beanutils
+Requires(post):	jakarta-commons-digester
+Requires(post):	jakarta-commons-fileupload
+Requires(post):	jakarta-commons-validator
+Requires(post):	jakarta-oro
+Requires(post):	tomcat5
+Requires(pre):	tomcat5
 # for /bin/ln and /bin/rm
-Requires(post): coreutils
-Requires(preun): coreutils
+Requires(post):	coreutils
+Requires(preun):	coreutils
 
 %description webapps-tomcat5
 Sample %{name} webapps for tomcat5.
@@ -178,39 +175,39 @@ ant -Dlibdir=/usr/share/java \
 
 %install
 # jars
-install -d -m 755 $RPM_BUILD_ROOT%{_javadir}
+install -d -m 755 %{buildroot}%{_javadir}
 install -m 644 dist/lib/%{name}.jar \
-	$RPM_BUILD_ROOT%{_javadir}/%{name}.jar
+	%{buildroot}%{_javadir}/%{name}.jar
 
 # javadoc
-install -d -m 755 $RPM_BUILD_ROOT%{_javadocdir}/%{name}
-cp -pr target/documentation/api/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
+install -d -m 755 %{buildroot}%{_javadocdir}/%{name}
+cp -pr target/documentation/api/* %{buildroot}%{_javadocdir}/%{name}
 rm -rf target/documentation/api
 
 # data
-install -d -m 755 $RPM_BUILD_ROOT%{_datadir}/%{name}
-install -m 644 dist/lib/*.tld $RPM_BUILD_ROOT%{_datadir}/%{name}
-install -m 644 dist/lib/*.dtd $RPM_BUILD_ROOT%{_datadir}/%{name}
-install -m 644 dist/lib/vali*.xml $RPM_BUILD_ROOT%{_datadir}/%{name}
+install -d -m 755 %{buildroot}%{_datadir}/%{name}
+install -m 644 dist/lib/*.tld %{buildroot}%{_datadir}/%{name}
+install -m 644 dist/lib/*.dtd %{buildroot}%{_datadir}/%{name}
+install -m 644 dist/lib/vali*.xml %{buildroot}%{_datadir}/%{name}
 
 # core docs
-install -d -m 755 $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/docs
-cp -p {INSTALL,LICENSE.txt,NOTICE.txt,README,STATUS.txt} $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
-cp -p target/documentation/*.html $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/docs
-cp -p target/documentation/*.gif $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/docs
-cp -pr target/documentation/uml $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/docs
-cp -pr target/documentation/userGuide $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/docs
-cp -pr target/documentation/images $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/docs
+install -d -m 755 %{buildroot}%{_docdir}/%{name}-%{version}/docs
+cp -p {INSTALL,LICENSE.txt,NOTICE.txt,README,STATUS.txt} %{buildroot}%{_docdir}/%{name}-%{version}
+cp -p target/documentation/*.html %{buildroot}%{_docdir}/%{name}-%{version}/docs
+cp -p target/documentation/*.gif %{buildroot}%{_docdir}/%{name}-%{version}/docs
+cp -pr target/documentation/uml %{buildroot}%{_docdir}/%{name}-%{version}/docs
+cp -pr target/documentation/userGuide %{buildroot}%{_docdir}/%{name}-%{version}/docs
+cp -pr target/documentation/images %{buildroot}%{_docdir}/%{name}-%{version}/docs
 
 # tomcat 5 webapps
-install -d -m 755 $RPM_BUILD_ROOT%{tomcat5appsdir}
-install -d -m 755 $RPM_BUILD_ROOT%{tomcat5ctxdir}
+install -d -m 755 %{buildroot}%{tomcat5appsdir}
+install -d -m 755 %{buildroot}%{tomcat5ctxdir}
 for webapp in %{webapps}; do
-    cp -pr target/$webapp $RPM_BUILD_ROOT%{tomcat5appsdir}/%{name}-$webapp
-    cat %{SOURCE3} | sed -e "s/@@@APPNAME@@@/$webapp/g;" > $RPM_BUILD_ROOT%{tomcat5ctxdir}/%{name}-$webapp.xml
-	# XXX: move to %%post/preun
-	rm -f $RPM_BUILD_ROOT%{tomcat5appsdir}/%{name}-$webapp/WEB-INF/lib/*
-    (cd $RPM_BUILD_ROOT%{tomcat5appsdir}/%{name}-$webapp/WEB-INF \
+    cp -pr target/$webapp %{buildroot}%{tomcat5appsdir}/%{name}-$webapp
+    cat %{SOURCE3} | sed -e "s/@@@APPNAME@@@/$webapp/g;" > %{buildroot}%{tomcat5ctxdir}/%{name}-$webapp.xml
+	# XXX:	move to %%post/preun
+	rm -f %{buildroot}%{tomcat5appsdir}/%{name}-$webapp/WEB-INF/lib/*
+    (cd %{buildroot}%{tomcat5appsdir}/%{name}-$webapp/WEB-INF \
     && for tld in ../../../../../..%{_datadir}/%{name}/*.tld; do ln -sf $tld `basename $tld`; done)
 done
 
@@ -226,7 +223,6 @@ rm -f %{tomcat5appsdir}/%{name}-$webapp/WEB-INF/lib/*
 done
 
 %files
-%defattr(-,root,root)
 %dir %{_docdir}/%{name}-%{version}
 %doc %{_docdir}/%{name}-%{version}/INSTALL
 %doc %{_docdir}/%{name}-%{version}/README
@@ -235,12 +231,10 @@ done
 %{_datadir}/%{name}
 
 %files manual
-%defattr(-,root,root)
 %dir %{_docdir}/%{name}-%{version}
 %doc %{_docdir}/%{name}-%{version}/docs
 
 %files javadoc
-%defattr(-,root,root)
 %{_javadocdir}/%{name}
 
 %files webapps-tomcat5
