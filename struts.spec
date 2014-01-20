@@ -1,83 +1,59 @@
-# Copyright (c) 2000-2005, JPackage Project
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-#
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in the
-#    documentation and/or other materials provided with the
-#    distribution.
-# 3. Neither the name of the JPackage Project nor the names of its
-#    contributors may be used to endorse or promote products derived
-#    from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
+%{?_javapackages_macros:%_javapackages_macros}
+%global master_version 4
+Name:          struts
+Version:       1.3.10
+Release:       9.0%{?dist}
+Summary:       Web application framework
+License:       ASL 2.0
+URL:           http://struts.apache.org/
+# wget http://www.apache.org/dist/struts/source/struts-1.3.10-src.zip
+# remove non free resources
+# unzip -qq struts-1.3.10-src.zip
+# rm -r struts-1.3.10/src/core/src/main/resources/org/apache/struts/resources/web-app_2_3.dtd
+# tar czf struts-1.3.10-clean-src.tar.gz struts-1.3.10
+Source0:       %{name}-%{version}-clean-src.tar.gz
+# wget -O struts-master-4-pom.xml http://svn.apache.org/repos/asf/struts/maven/tags/STRUTS_MASTER_4/pom.xml
+Source1:       %{name}-master-%{master_version}-pom.xml
+# add struts-master relativePath
+Patch0:        %{name}-%{version}-parent-pom.patch
+# add 
+#  org.jboss.spec.javax.el jboss-el-api_2.2_spec
+#  org.apache.maven.plugins maven-resources-plugin configuration
+# change 
+#  myfaces myfaces-jsf-api 1.0.9 with org.jboss.spec.javax.faces jboss-jsf-api_2.1_spec
+#  jakarta-taglibs-standard with jboss-jstl-1.2-api
+#  javax.servlet servlet-api with org.jboss.spec.javax.servlet jboss-servlet-api_3.0_spec
+#  javax.servlet jsp-api with org.jboss.spec.javax.servlet.jsp jboss-jsp-api_2.2_spec
+# fix
+#  bsf gId
+#  maven-compiler-plugin build source/target
+#  build for junit servlet-3.0-api
+Patch1:        %{name}-%{version}-jboss.patch
 
-%define full_name	jakarta-%{name}
-%define tomcat5appsdir  %{_localstatedir}/lib/tomcat5/webapps
-%define tomcat5ctxdir   %{_sysconfdir}/tomcat5/Catalina/localhost
-%define webapps		blank documentation example examples tiles-documentation
-%define webapplibs commons-beanutils commons-digester commons-fileupload commons-validator oro struts
+BuildRequires: java-devel
 
-Summary:	Web application framework
-Name:		struts
-Version:	1.2.9
-Release:	11
-License:	ASL 2.0
-Group:		Development/Java
-Url:		http://struts.apache.org/
-Source0:	%{name}-%{version}-src-RHCLEAN.tar.gz
-Source2:	tomcat4-context-allowlinking.xml
-Source3:	tomcat5-context-allowlinking.xml
-#Patch0:	%{name}-%{version}.build.patch
-Patch0:		struts-1.2.9-strutsel-build_xml.patch
-Patch1:		struts-1.2.9-FacesRequestProcessor.patch
-Patch2:		struts-1.2.9-HttpServletRequestWrapper.patch
-Patch3:		struts-1.2.9-FacesTilesRequestProcessor.patch
-Patch4:		struts-1.2.9-strutsfaces-example1-build_xml.patch
-Patch5:		struts-1.2.9-strutsfaces-example2-build_xml.patch
-Patch6:		struts-1.2.9-strutsfaces-systest1-build_xml.patch
-Patch7:		struts-1.2.9.bz157205.patch
-Patch8:		struts-1.2.9-CVE-2008-2025.patch
-BuildArch:	noarch
-BuildRequires:	locales-en
-BuildRequires:	jpackage-utils >= 1.6
-BuildRequires:	java-devel >= 0:1.6.0
-BuildRequires:	ant >= 1.6
-BuildRequires:	ant-nodeps >= 1.6
-BuildRequires:	ant-trax >= 1.6
-BuildRequires:	antlr
-BuildRequires:	jaxp_transform_impl
-BuildRequires:	sed
-BuildRequires:	servlet25
-BuildRequires:	jsp21
-BuildRequires:	jakarta-commons-beanutils
-BuildRequires:	jakarta-commons-digester
-BuildRequires:	jakarta-commons-fileupload
-BuildRequires:	jakarta-commons-logging
-BuildRequires:	jakarta-commons-validator
-BuildRequires:	jakarta-oro
-Requires:	servlet25
-Requires:	jakarta-commons-beanutils
-Requires:	jakarta-commons-digester
-Requires:	jakarta-commons-fileupload
-Requires:	jakarta-commons-validator
-Requires:	jakarta-oro
+BuildRequires: mvn(antlr:antlr)
+BuildRequires: mvn(commons-beanutils:commons-beanutils)
+BuildRequires: mvn(commons-chain:commons-chain)
+BuildRequires: mvn(commons-digester:commons-digester)
+BuildRequires: mvn(commons-fileupload:commons-fileupload)
+BuildRequires: mvn(commons-logging:commons-logging)
+BuildRequires: mvn(commons-validator:commons-validator)
+BuildRequires: mvn(junit:junit)
+BuildRequires: mvn(org.apache.bsf:bsf)
+BuildRequires: mvn(org.jboss.spec.javax.el:jboss-el-api_2.2_spec)
+BuildRequires: mvn(org.jboss.spec.javax.faces:jboss-jsf-api_2.1_spec)
+BuildRequires: mvn(org.jboss.spec.javax.servlet.jsp:jboss-jsp-api_2.2_spec)
+BuildRequires: mvn(org.jboss.spec.javax.servlet.jstl:jboss-jstl-api_1.2_spec)
+BuildRequires: mvn(org.jboss.spec.javax.servlet:jboss-servlet-api_3.0_spec)
+BuildRequires: mvn(oro:oro)
+
+BuildRequires: maven-local
+BuildRequires: maven-surefire-provider-junit4
+
+BuildArch:     noarch
+Obsoletes:     %{name}-manual < %{version}
+Obsoletes:     %{name}-webapps-tomcat5 < %{version}
 
 %description
 Welcome to the Struts Framework! The goal of this project is to provide
@@ -95,163 +71,89 @@ applications.
 Utility classes to support XML parsing, automatic population of
 JavaBeans properties based on the Java reflection APIs, and
 internationalization of prompts and messages.
-Struts is part of the Jakarta Project, sponsored by the Apache Software
-Foundation. The official Struts home page is at
-http://jakarta.apache.org/struts.
-
-%package manual
-Summary:	Manual for %{name}
-Group:		Development/Java
-
-%description manual
-Documentation for %{name}.
 
 %package javadoc
-Summary:	Javadoc for %{name}
-Group:		Development/Java
+Summary:       Javadoc for %{name}
 
 %description javadoc
-Javadoc for %{name}.
-
-%package webapps-tomcat5
-Summary:	Sample %{name} webapps for tomcat5
-Group:		Development/Java
-Requires:	%{name} = %{version}-%{release}
-Requires:	jakarta-commons-beanutils
-Requires:	jakarta-commons-digester
-Requires:	jakarta-commons-fileupload
-Requires:	jakarta-commons-validator
-Requires:	jakarta-oro
-Requires:	tomcat5
-Requires(post):	%{name} = %{version}-%{release}
-Requires(post):	jakarta-commons-beanutils
-Requires(post):	jakarta-commons-digester
-Requires(post):	jakarta-commons-fileupload
-Requires(post):	jakarta-commons-validator
-Requires(post):	jakarta-oro
-Requires(post):	tomcat5
-Requires(pre):	tomcat5
-# for /bin/ln and /bin/rm
-Requires(post):	coreutils
-Requires(preun):	coreutils
-
-%description webapps-tomcat5
-Sample %{name} webapps for tomcat5.
+This package contains javadoc for %{name}.
 
 %prep
-%setup -n %{name}-%{version}-src -q
-%patch0 -p0 -b .sav
-%patch1 -p0 -b .sav
-%patch2 -p0 -b .sav
-%patch3 -p0 -b .sav
-%patch4 -p0 -b .sav
-%patch5 -p0 -b .sav
-%patch6 -p0 -b .sav
-%patch7 -p0 -b .sav
-%patch8 -p1 -b .sav
-# remove all binary libs
-find . -name "*.jar" -exec rm -f {} \;
+%setup -q
+find -name "*.jar" -delete
+find -name "*.class" -delete
+%patch0 -p0
+%patch1 -p1
+
+sed -i 's/\r//' LICENSE.txt NOTICE.txt
+
+# fix non ASCII chars
+for s in src/tiles/src/main/java/org/apache/struts/tiles/ComponentDefinition.java;do
+  native2ascii -encoding UTF8 ${s} ${s}
+done
+
+cp -p %{SOURCE1} pom.xml
+
+cd src
+%mvn_file :%{name}-core %{name}/core
+%mvn_file :%{name}-el %{name}/el
+%mvn_file :%{name}-extras %{name}/extras
+%mvn_file :%{name}-faces %{name}/faces
+%mvn_file :%{name}-mailreader-dao %{name}/mailreader-dao
+%mvn_file :%{name}-scripting %{name}/scripting
+%mvn_file :%{name}-taglib %{name}/taglib
+%mvn_file :%{name}-tiles %{name}/tiles
 
 %build
-export LC_ALL=ISO-8859-1
 
-# build struts
-export CLASSPATH=$(build-classpath servlet)
-export ANT_OPTS="-Xmx256m"
-STRUTS_BUILD_HOME=$(pwd)
-ant -Dlibdir=/usr/share/java \
-	-Dcommons-beanutils.jar=$(build-classpath commons-beanutils) \
-	-Dcommons-digester.jar=$(build-classpath commons-digester) \
-	-Dcommons-fileupload.jar=$(build-classpath commons-fileupload) \
-	-Dcommons-logging.jar=$(build-classpath commons-logging) \
-	-Dcommons-validator.jar=$(build-classpath commons-validator) \
-	-Djakarta-oro.jar=$(build-classpath oro) \
-        -Djdbc20ext.jar=$(find-jar jdbc-stdext) \
-	-Djsp.jar=$(build-classpath jsp) \
-	-Dservlet.jar=$(build-classpath servlet) \
-	-Dantlr.jar=$(build-classpath antlr) \
-	 dist
-#	 compile.library compile.webapps compile.javadoc
+cd src
+%mvn_build -- -Dproject.build.sourceEncoding=UTF-8
 
 %install
-# jars
-install -d -m 755 %{buildroot}%{_javadir}
-install -m 644 dist/lib/%{name}.jar \
-	%{buildroot}%{_javadir}/%{name}.jar
 
-# javadoc
-install -d -m 755 %{buildroot}%{_javadocdir}/%{name}
-cp -pr target/documentation/api/* %{buildroot}%{_javadocdir}/%{name}
-rm -rf target/documentation/api
+(
+cd src
+%mvn_install
+)
 
-# data
-install -d -m 755 %{buildroot}%{_datadir}/%{name}
-install -m 644 dist/lib/*.tld %{buildroot}%{_datadir}/%{name}
-install -m 644 dist/lib/*.dtd %{buildroot}%{_datadir}/%{name}
-install -m 644 dist/lib/vali*.xml %{buildroot}%{_datadir}/%{name}
+install -pm 644 pom.xml %{buildroot}%{_mavenpomdir}/JPP.%{name}-master.pom
+%add_maven_depmap JPP.%{name}-master.pom
 
-# core docs
-install -d -m 755 %{buildroot}%{_docdir}/%{name}-%{version}/docs
-cp -p {INSTALL,LICENSE.txt,NOTICE.txt,README,STATUS.txt} %{buildroot}%{_docdir}/%{name}-%{version}
-cp -p target/documentation/*.html %{buildroot}%{_docdir}/%{name}-%{version}/docs
-cp -p target/documentation/*.gif %{buildroot}%{_docdir}/%{name}-%{version}/docs
-cp -pr target/documentation/uml %{buildroot}%{_docdir}/%{name}-%{version}/docs
-cp -pr target/documentation/userGuide %{buildroot}%{_docdir}/%{name}-%{version}/docs
-cp -pr target/documentation/images %{buildroot}%{_docdir}/%{name}-%{version}/docs
+%files -f src/.mfiles
+%dir %{_javadir}/%{name}
+%{_mavenpomdir}/JPP.%{name}-master.pom
+%{_mavendepmapfragdir}/%{name}
+%doc LICENSE.txt NOTICE.txt
 
-# tomcat 5 webapps
-install -d -m 755 %{buildroot}%{tomcat5appsdir}
-install -d -m 755 %{buildroot}%{tomcat5ctxdir}
-for webapp in %{webapps}; do
-    cp -pr target/$webapp %{buildroot}%{tomcat5appsdir}/%{name}-$webapp
-    cat %{SOURCE3} | sed -e "s/@@@APPNAME@@@/$webapp/g;" > %{buildroot}%{tomcat5ctxdir}/%{name}-$webapp.xml
-	# XXX:	move to %%post/preun
-	rm -f %{buildroot}%{tomcat5appsdir}/%{name}-$webapp/WEB-INF/lib/*
-    (cd %{buildroot}%{tomcat5appsdir}/%{name}-$webapp/WEB-INF \
-    && for tld in ../../../../../..%{_datadir}/%{name}/*.tld; do ln -sf $tld `basename $tld`; done)
-done
+%files javadoc -f src/.mfiles-javadoc
+%doc LICENSE.txt NOTICE.txt
 
-%post webapps-tomcat5
-for webapp in %{webapps}; do
-build-jar-repository -s -p %{tomcat5appsdir}/%{name}-$webapp/WEB-INF/lib commons-beanutils commons-digester commons-fileupload commons-validator oro
-ln -s %{_javadir}/struts.jar %{tomcat5appsdir}/%{name}-$webapp/WEB-INF/lib
-done
+%changelog
+* Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.10-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
-%preun webapps-tomcat5
-for webapp in %{webapps}; do
-rm -f %{tomcat5appsdir}/%{name}-$webapp/WEB-INF/lib/*
-done
+* Wed Jul 03 2013 gil cattaneo <puntogil@libero.it> 1.3.10-8
+- switch to XMvn
+- minor changes to adapt to current guideline
 
-%files
-%dir %{_docdir}/%{name}-%{version}
-%doc %{_docdir}/%{name}-%{version}/INSTALL
-%doc %{_docdir}/%{name}-%{version}/README
-%doc %{_docdir}/%{name}-%{version}/*.txt
-%{_javadir}/%{name}.jar
-%{_datadir}/%{name}
+* Fri Feb 15 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.10-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
-%files manual
-%dir %{_docdir}/%{name}-%{version}
-%doc %{_docdir}/%{name}-%{version}/docs
+* Wed Feb 06 2013 Java SIG <java-devel@lists.fedoraproject.org> - 1.3.10-6
+- Update for https://fedoraproject.org/wiki/Fedora_19_Maven_Rebuild
+- Replace maven BuildRequires with maven-local
 
-%files javadoc
-%{_javadocdir}/%{name}
+* Sat Jul 21 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3.10-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
-%files webapps-tomcat5
-%defattr(-,tomcat,tomcat)
-%dir %{tomcat5appsdir}/%{name}-blank
-%{tomcat5appsdir}/%{name}-blank/*
-%dir %{tomcat5appsdir}/%{name}-documentation
-%{tomcat5appsdir}/%{name}-documentation/*
-%dir %{tomcat5appsdir}/%{name}-example
-%{tomcat5appsdir}/%{name}-example/*
-%dir %{tomcat5appsdir}/%{name}-examples
-%{tomcat5appsdir}/%{name}-examples/*
-%dir %{tomcat5appsdir}/%{name}-tiles-documentation
-%{tomcat5appsdir}/%{name}-tiles-documentation/*
-%{tomcat5ctxdir}/%{name}-blank.xml
-%{tomcat5ctxdir}/%{name}-documentation.xml
-%{tomcat5ctxdir}/%{name}-example.xml
-%{tomcat5ctxdir}/%{name}-examples.xml
-%{tomcat5ctxdir}/%{name}-tiles-documentation.xml
+* Fri Jun 29 2012 gil cattaneo <puntogil@libero.it> 1.3.10-4
+- replace tomcat 7.x apis with jboss apis
 
+* Fri Jun 29 2012 gil cattaneo <puntogil@libero.it> 1.3.10-3
+- replace jakarta-taglibs-standard with jboss-jstl-1.2-api
+
+* Sat Jun 23 2012 gil cattaneo <puntogil@libero.it> 1.3.10-2
+- removed non-free resources
+
+* Sat May 26 2012 gil cattaneo <puntogil@libero.it> 1.3.10-1
+- initial rpm
