@@ -37,7 +37,7 @@
 Summary:	Web application framework
 Name:		struts
 Version:	1.2.9
-Release:	11
+Release:	12
 License:	ASL 2.0
 Group:		Development/Java
 Url:		http://struts.apache.org/
