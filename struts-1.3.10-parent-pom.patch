@@ -1,0 +1,10 @@
+--- src/pom.xml	2008-11-28 23:43:00.000000000 +0100
++++ src/pom.xml-gil	2012-05-27 02:03:51.141291805 +0200
+@@ -24,6 +24,7 @@
+       <groupId>org.apache.struts</groupId>
+       <artifactId>struts-master</artifactId>
+       <version>4</version>
++      <relativePath>../pom.xml</relativePath>
+    </parent>
+ 
+     <modelVersion>4.0.0</modelVersion>
