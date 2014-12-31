@@ -2,8 +2,9 @@
 %global master_version 4
 Name:          struts
 Version:       1.3.10
-Release:       9.0%{?dist}
+Release:       12.1
 Summary:       Web application framework
+Group:         Development/Java
 License:       ASL 2.0
 URL:           http://struts.apache.org/
 # wget http://www.apache.org/dist/struts/source/struts-1.3.10-src.zip
@@ -29,6 +30,9 @@ Patch0:        %{name}-%{version}-parent-pom.patch
 #  maven-compiler-plugin build source/target
 #  build for junit servlet-3.0-api
 Patch1:        %{name}-%{version}-jboss.patch
+# Thanks to Arun Babu Neelicattu aneelica@redhat.com
+# and Brandon.Vincent@asu.edu
+Patch2: struts-1.3.10-CVE-2014-0114.patch
 
 BuildRequires: java-devel
 
@@ -49,7 +53,7 @@ BuildRequires: mvn(org.jboss.spec.javax.servlet:jboss-servlet-api_3.0_spec)
 BuildRequires: mvn(oro:oro)
 
 BuildRequires: maven-local
-BuildRequires: maven-surefire-provider-junit4
+BuildRequires: maven-surefire-provider-junit
 
 BuildArch:     noarch
 Obsoletes:     %{name}-manual < %{version}
@@ -84,6 +88,7 @@ find -name "*.jar" -delete
 find -name "*.class" -delete
 %patch0 -p0
 %patch1 -p1
+%patch2 -p0
 
 sed -i 's/\r//' LICENSE.txt NOTICE.txt
 
@@ -92,7 +97,8 @@ for s in src/tiles/src/main/java/org/apache/struts/tiles/ComponentDefinition.jav
   native2ascii -encoding UTF8 ${s} ${s}
 done
 
-cp -p %{SOURCE1} pom.xml
+%pom_remove_parent src
+#cp -p %{SOURCE1} pom.xml
 
 cd src
 %mvn_file :%{name}-core %{name}/core
@@ -116,13 +122,11 @@ cd src
 %mvn_install
 )
 
-install -pm 644 pom.xml %{buildroot}%{_mavenpomdir}/JPP.%{name}-master.pom
-%add_maven_depmap JPP.%{name}-master.pom
+#install -pm 644 pom.xml %%{buildroot}%%{_mavenpomdir}/JPP.%%{name}-master.pom
+#%%add_maven_depmap JPP.%%{name}-master.pom
 
 %files -f src/.mfiles
 %dir %{_javadir}/%{name}
-%{_mavenpomdir}/JPP.%{name}-master.pom
-%{_mavendepmapfragdir}/%{name}
 %doc LICENSE.txt NOTICE.txt
 
 %files javadoc -f src/.mfiles-javadoc
