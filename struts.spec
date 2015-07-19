@@ -2,7 +2,7 @@
 %global master_version 4
 Name:          struts
 Version:       1.3.10
-Release:       12.1
+Release:       12.2
 Summary:       Web application framework
 Group:         Development/Java
 License:       ASL 2.0
