@@ -6,7 +6,7 @@ Release:       12.3
 Summary:       Web application framework
 Group:         Development/Java
 License:       ASL 2.0
-URL:           http://struts.apache.org/
+URL:           https://struts.apache.org/
 # wget http://www.apache.org/dist/struts/source/struts-1.3.10-src.zip
 # remove non free resources
 # unzip -qq struts-1.3.10-src.zip
